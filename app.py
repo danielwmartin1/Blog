@@ -1,6 +1,7 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash, session
 
 app = Flask(__name__)
+app.secret_key = 'your_secret_key'  # Replace with a secure secret key
 
 posts = []
 
@@ -14,6 +15,8 @@ def add_post():
     content = request.form.get('content')
     if title and content:
         posts.append({'title': title, 'content': content})
+    else:
+        flash("Title and Content cannot be empty")
     return redirect(url_for('index'))
 
 if __name__ == '__main__':
