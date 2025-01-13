@@ -4,6 +4,7 @@
     "click": "^0.1.0",
     "colorama": "^0.0.0",
     "django": "^99.99.99",
+    "flask": "^0.2.10",
     "itsdangerous": "^0.0.1",
     "tzdata": "^1.0.42",
     "vercel": "^39.2.6"
