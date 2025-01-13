@@ -1,114 +1,140 @@
 body {
-    font-family: Arial, sans-serif;
-    background-color: #756e6e;
+    font-family: 'Roboto', Arial, sans-serif;
     margin: 0;
     padding: 0;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+    background-color: #000000;
+    color: #ffffff;
 }
 
-.container {
-    width: 90%;
-    max-width: 800px;
-    margin: 50px auto;
-    background: #fff;
-    padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    flex: 1;
-    border-radius: 5px;
-    background-color: #24c0f4b1;
+header, footer {
+    background-color: #0048ffc4;
+    color: #fff;
+    padding: 1rem 0;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 100%;
 }
 
 header {
-    text-align: center;
-    background-color: #007bff;
-    border-bottom: 2px solid #00ffff;
-    color: #fff;
-    padding: 20px 0;
-    border-radius: 8px 8px 0 0;
+    border-bottom: 5px ridge aqua;
 }
 
 footer {
-    text-align: center;
-    background-color: #007bff;
-    border-top: 2px solid #00ffff;
-    color: #fff;
-    padding: 20px 0;
-    margin-top: auto;
-    border-radius: 0 0 8px 8px;
+    border-top: 5px ridge aqua;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
 }
 
-h1 {
-    text-align: center;
-    font-size: 2em;
-    margin-bottom: 20px;
+.container {
+    width: 80%;
+    max-width: 1200px;
+    margin: 7rem auto;
+    background-color: #fff;
+    padding: 2rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.flashes {
+    list-style-type: none;
+    padding: 0;
+    margin: 1rem 0;
+}
+
+.flashes li {
+    background-color: #ffdddd;
+    color: #d8000c;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-left: 5px solid #d8000c;
+    border-radius: 4px;
 }
 
 form {
     display: flex;
     flex-direction: column;
-    margin-bottom: 20px;
+    width: 100%;
 }
 
-input[type="text"], textarea {
-    width: auto;
-    padding: 15px;
-    margin-bottom: 10px;
+form input, form textarea {
+    margin-bottom: 1rem;
+    padding: 0.75rem;
     border: 1px solid #ccc;
     border-radius: 4px;
-    font-size: 1em;
+    font-size: 1rem;
 }
 
-button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    width: 100%;
-    padding: 15px;
-    background: green;
+form button {
+    padding: 0.75rem;
+    border: none;
+    background-color: #4CAF50;
     color: #fff;
-    border-radius: 5px;
-    border: 1px solid #218838;
     cursor: pointer;
-    font-size: 1em;
-    transition: background 0.3s ease;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
 }
 
-button:hover {
-    background: #218838;
-    transform: matrix(1.05, 0, 0, 1.05, 0, 0);
+form button:hover {
+    background-color: #45a049;
 }
 
-button:active {
-    background: #218838;
-    transform: matrix(0.95, 0, 0, 0.95, 0, 0);
-}
-
-.posts {
-    margin-top: 20px;
+form button:active {
+    background-color: #00874c;
 }
 
 .post {
-    background: #f9f9f9;
-    margin: 10px 0;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+    margin-bottom: 2rem;
+    text-align: justify;
 }
 
 .post h2 {
-    margin: 0 0 10px;
-    font-size: 1.5em;
+    margin: 0;
+    padding: 0;
+    color: #333;
+    font-size: 1.5rem;
 }
 
-@media (min-width: 768px) {
+.post p {
+    color: #666;
+    line-height: 1.6;
+}
+
+@media (max-width: 768px) {
     .container {
-        width: 70%;
+        width: 95%;
     }
 
-    button {
-        width: 200px;
+    form input, form textarea, form button {
+        font-size: 0.875rem;
+    }
+
+    .post h2 {
+        font-size: 1.25rem;
+    }
+}
+
+@media (max-width: 480px) {
+    header, footer {
+        padding: 0.5rem 0;
+    }
+
+    .container {
+        width: 100%;
+        margin: 5rem auto;
+        padding: 1rem;
+    }
+
+    form input, form textarea, form button {
+        font-size: 0.75rem;
+    }
+
+    .post h2 {
+        font-size: 1rem;
     }
 }
