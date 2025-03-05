@@ -115,6 +115,24 @@ form button:active {
     width: 100%;
 }
 
+.flash-success {
+    color: green !important;
+    background-color: lightgreen !important;
+}
+.flash-error {
+    color: red;
+}
+.content-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.form-container, .posts-container {
+    width: 100%;
+    max-width: 600px;
+}
+
 @media (max-width: 768px) {
     .container {
         width: 95%;
