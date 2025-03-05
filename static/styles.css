@@ -109,6 +109,12 @@ form button:active {
     line-height: 1.6;
 }
 
+.posts {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
 @media (max-width: 768px) {
     .container {
         width: 95%;

@@ -13,13 +13,23 @@
         .flash-error {
             color: red;
         }
+        .content-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .form-container, .posts-container {
+            width: 100%;
+            max-width: 600px;
+        }
     </style>
 </head>
 <body>
     <header>
         <h1>Python/Django/Flask Blog</h1>
     </header>
-    <div class="container">
+    <div class="container content-container">
         {% block content %}{% endblock %}
     </div>
     <footer>
