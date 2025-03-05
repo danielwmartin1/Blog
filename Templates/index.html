@@ -49,28 +49,30 @@ function getCookie(name) {
 }
 
 function deletePost(postId) {
-    const csrftoken = getCookie('csrftoken');
-    console.log('CSRF Token:', csrftoken); // Debugging CSRF token
-    fetch("/delete_post/" + postId + "/", {
-        method: 'DELETE',
-        headers: {
-            'X-CSRFToken': csrftoken,
-        },
-    })
-    .then(response => {
-        console.log('Response Status:', response.status); // Debugging response status
-        if (response.ok) {
-            location.reload();
-        } else {
-            return response.json().then(error => {
-                throw new Error(error.message);
-            });
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('Failed to delete post: ' + error.message);
-    });
+    if (confirm(`Are you sure you want to delete the post with ID ${postId}?`)) {
+        const csrftoken = getCookie('csrftoken');
+        console.log('CSRF Token:', csrftoken); // Debugging CSRF token
+        fetch("/delete_post/" + postId + "/", {
+            method: 'DELETE',
+            headers: {
+                'X-CSRFToken': csrftoken,
+            },
+        })
+        .then(response => {
+            console.log('Response Status:', response.status); // Debugging response status
+            if (response.ok) {
+                location.reload();
+            } else {
+                return response.json().then(error => {
+                    throw new Error(error.message);
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Failed to delete post: ' + error.message);
+        });
+    }
 }
 </script>
 {% endblock %}
