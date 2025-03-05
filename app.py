@@ -14,10 +14,31 @@ def index():
 def add_post():
     title = request.form.get('title')
     content = request.form.get('content')
-    if title and content:
-        posts.append({'title': title, 'content': content})
-    else:
-        flash("Title and Content cannot be empty")
+    author = request.form.get('author')
+    # Debugging information
+    app.logger.debug(f"Received title: {title}")
+    app.logger.debug(f"Received content: {content}")
+    app.logger.debug(f"Received author: {author}")
+    
+    # Validation
+    if not title or not content or not author:
+        flash("Title, Content, and Author cannot be empty", "error")
+        return redirect(url_for('index'))
+    
+    if len(title) < 5:
+        flash("Title must be at least 5 characters long", "error")
+        return redirect(url_for('index'))
+    
+    if len(content) < 10:
+        flash("Content must be at least 10 characters long", "error")
+        return redirect(url_for('index'))
+    
+    if len(author) < 2:
+        flash("Author must be at least 2 characters long", "error")
+        return redirect(url_for('index'))
+    
+    posts.append({'title': title, 'content': content, 'author': author})
+    flash("Post added successfully", "success")
     return redirect(url_for('index'))
 
 if __name__ == '__main__':
