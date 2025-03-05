@@ -75,6 +75,17 @@ def update_post(post_id):
     flash("Post updated successfully", "success")
     return '', 204
 
+@app.route('/clear-posts', methods=['DELETE'])
+def clear_posts():
+    try:
+        num_deleted = db.session.query(Post).delete()
+        db.session.commit()
+        flash(f"Deleted {num_deleted} posts successfully", "success")
+    except Exception as e:
+        flash("An error occurred while deleting the posts", "error")
+        app.logger.error(f"Error deleting posts: {e}")
+    return '', 204
+
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()

@@ -14,10 +14,10 @@
 {% endwith %}
 
 <div class="form-container">
-    <form action="{{ url_for('add_post') }}" method="POST">
+    <form id="post-form" action="{{ url_for('add_post') }}" method="POST">
         <input type="text" id="post-title" name="title" placeholder="Post Title" required minlength="5">
         <textarea name="content" placeholder="Post Content" required minlength="10" rows="5" style="resize: vertical;"></textarea>
-        <input type="text" name="author" placeholder="Post Author" required minlength="2">
+        <input type="text" id="post-author" name="author" placeholder="Post Author" required minlength="2">
         <center>
             <button type="submit" class="btn btn-add">Add Post</button>
             <button type="button" class="btn btn-clear" onClick="clearPosts()">Clear All Posts</button>
@@ -110,7 +110,7 @@ function updatePost(postId) {
 
 function clearPosts() {
     if (confirm('Are you sure you want to delete all posts?')) {
-        fetch(`/clear-posts`, {
+        fetch("/clear-posts", {
             method: 'DELETE',
             headers: {
                 'X-CSRFToken': getCookie('csrftoken')
@@ -127,6 +127,21 @@ function clearPosts() {
 
 document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('post-title').focus();
+
+    const inputs = document.querySelectorAll('input, textarea');
+    inputs.forEach((input, index) => {
+        input.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                const nextInput = inputs[index + 1];
+                if (nextInput) {
+                    nextInput.focus();
+                } else {
+                    document.getElementById('post-form').submit();
+                }
+            }
+        });
+    });
 });
 
 document.addEventListener('fetch', function() {

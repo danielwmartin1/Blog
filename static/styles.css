@@ -31,7 +31,7 @@ footer {
 
 .container {
     flex: 1;
-    width: 80%;
+    width: 90%;
     max-width: 1200px;
     margin: 3rem auto;
     background-color: #fff;
@@ -100,6 +100,11 @@ form button:active {
     margin-bottom: 2rem;
     text-align: justify;
     position: relative; /* Added for positioning the delete button */
+    border: 1px solid #ccc;
+    padding: 1rem;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .post h2 {
@@ -136,6 +141,11 @@ form button:active {
 .form-container, .posts-container {
     width: 100%;
     max-width: 600px;
+}
+
+.posts-container {
+    width: 100%;
+    max-width: 800px;
 }
 
 .delete-button {
