@@ -1,13 +1,24 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session
+from flask_sqlalchemy import SQLAlchemy
 import os
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY', 'default_secret_key')  # Replace 'default_secret_key' with a secure value
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///blog.db'
+db = SQLAlchemy(app)
 
-posts = []
+class Post(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(100), nullable=False)
+    content = db.Column(db.Text, nullable=False)
+    author = db.Column(db.String(50), nullable=False)
+
+    def __repr__(self):
+        return f'<Post {self.title}>'
 
 @app.route('/')
 def index():
+    posts = Post.query.all()
     return render_template('index.html', posts=posts)
 
 @app.route('/add', methods=['POST'])
@@ -37,40 +48,32 @@ def add_post():
         flash("Author must be at least 2 characters long", "error")
         return redirect(url_for('index'))
     
-    posts.append({'title': title, 'content': content, 'author': author})
+    new_post = Post(title=title, content=content, author=author)
+    db.session.add(new_post)
+    db.session.commit()
     flash("Post added successfully", "success")
     return redirect(url_for('index'))
 
 @app.route('/delete-post/<int:post_id>', methods=['DELETE'])
 def delete_post(post_id):
-    try:
-        if 0 <= post_id < len(posts):
-            del posts[post_id]
-            flash("Post deleted successfully", "success")
-            app.logger.info(f"Post with ID {post_id} deleted.")
-        else:
-            flash("Post not found", "error")
-            app.logger.warning(f"Attempt to delete non-existent post with ID {post_id}.")
-    except Exception as e:
-        flash("An error occurred while deleting the post", "error")
-        app.logger.error(f"Error deleting post with ID {post_id}: {e}")
+    post = Post.query.get_or_404(post_id)
+    db.session.delete(post)
+    db.session.commit()
+    flash("Post deleted successfully", "success")
     return '', 204
 
 @app.route('/update-post/<int:post_id>', methods=['PUT'])
 def update_post(post_id):
-    try:
-        post_data = request.get_json()
-        if 0 <= post_id < len(posts):
-            posts[post_id].update(post_data)
-            flash("Post updated successfully", "success")
-            app.logger.info(f"Post with ID {post_id} updated.")
-        else:
-            flash("Post not found", "error")
-            app.logger.warning(f"Attempt to update non-existent post with ID {post_id}.")
-    except Exception as e:
-        flash("An error occurred while updating the post", "error")
-        app.logger.error(f"Error updating post with ID {post_id}: {e}")
+    post_data = request.get_json()
+    post = Post.query.get_or_404(post_id)
+    post.title = post_data.get('title', post.title)
+    post.content = post_data.get('content', post.content)
+    post.author = post_data.get('author', post.author)
+    db.session.commit()
+    flash("Post updated successfully", "success")
     return '', 204
 
 if __name__ == '__main__':
+    with app.app_context():
+        db.create_all()
     app.run(debug=True, port=5001)  # Change the port number to 5001 or any other available port

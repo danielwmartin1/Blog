@@ -1,5 +1,5 @@
 from flask import Flask, request, redirect, url_for, flash, render_template
-from models import Post
+from models import Post, db
 
 app = Flask(__name__)
 
@@ -9,8 +9,8 @@ def add_post():
     content = request.form['content']
     author = 'Dan'  # You can modify this to get the actual author
     new_post = Post(title=title, content=content, author=author)
-    # Save the new post to the database
-    # ...existing code to save the post...
+    db.session.add(new_post)
+    db.session.commit()
     flash('Post added successfully!')
     return redirect(url_for('index'))
 
