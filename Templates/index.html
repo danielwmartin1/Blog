@@ -77,9 +77,32 @@ function deletePost(postId) {
 }
 
 function updatePost(postId) {
-    // Implement the logic to update the post with the given postId
-    alert(`Edit post with ID ${postId}`);
-    // You can add a modal or redirect to an edit page with the postId
+    const postData = {
+        title: prompt('Enter new title:'),
+        content: prompt('Enter new content:'),
+        author: prompt('Enter new author:')
+    };
+    fetch("/update-post/" + postId, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken')
+        },
+        body: JSON.stringify(postData)
+    })
+    .then(response => {
+        if (response.ok) {
+            location.reload();
+        } else {
+            return response.json().then(error => {
+                throw new Error(error.message);
+            });
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Failed to update post: ' + error.message);
+    });
 }
 </script>
 {% endblock %}

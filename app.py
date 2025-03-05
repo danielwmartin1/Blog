@@ -65,6 +65,8 @@ def delete_post(post_id):
 @app.route('/update-post/<int:post_id>', methods=['PUT'])
 def update_post(post_id):
     post_data = request.get_json()
+    if not post_data:
+        return 'Invalid data', 400
     post = Post.query.get_or_404(post_id)
     post.title = post_data.get('title', post.title)
     post.content = post_data.get('content', post.content)
