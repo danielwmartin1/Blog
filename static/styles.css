@@ -92,6 +92,10 @@ form button:active {
     background-color: #00874c;
 }
 
+#post-title {
+    /* Add any specific styles for the post title input field if needed */
+}
+
 .post {
     margin-bottom: 2rem;
     text-align: justify;
@@ -153,6 +157,73 @@ form button:active {
 
 .delete-button:active {
     background-color: #cc0000;
+}
+
+.btn {
+    padding: 10px 20px;
+    margin: 5px;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-add {
+    background-color: green;
+}
+
+.btn-add:hover {
+    background-color: #45a049;
+}
+
+.btn-add:active {
+    background-color: #00874c;
+}
+
+.btn-clear {
+    background-color: orange;
+}
+
+.btn-clear:hover {
+    background-color: #ff9933;
+}
+
+.btn-clear:active {
+    background-color: #cc6600;
+}
+
+.btn-delete {
+    background-color: red;
+}
+
+.btn-delete:hover {
+    background-color: #ff1a1a;
+}
+
+.btn-delete:active {
+    background-color: #cc0000;
+}
+
+.btn-edit {
+    background-color: blue;
+}
+
+.btn-edit:hover {
+    background-color: #1a75ff;
+}
+
+.btn-edit:active {
+    background-color: #0047b3;
+}
+
+.btn:hover {
+    opacity: 0.8;
+}
+
+.btn:active {
+    opacity: 0.6;
 }
 
 @media (max-width: 768px) {

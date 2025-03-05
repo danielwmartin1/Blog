@@ -15,10 +15,13 @@
 
 <div class="form-container">
     <form action="{{ url_for('add_post') }}" method="POST">
-        <input type="text" name="title" placeholder="Post Title" required minlength="5">
+        <input type="text" id="post-title" name="title" placeholder="Post Title" required minlength="5">
         <textarea name="content" placeholder="Post Content" required minlength="10" rows="5" style="resize: vertical;"></textarea>
         <input type="text" name="author" placeholder="Post Author" required minlength="2">
-        <center><button type="submit">Add Post</button></center>
+        <center>
+            <button type="submit" class="btn btn-add">Add Post</button>
+            <button type="button" class="btn btn-clear" onClick="clearPosts()">Clear All Posts</button>
+        </center>
     </form>
 </div>
 <div class="posts-container">
@@ -27,8 +30,8 @@
             <h2>{{ post.title }}</h2>
             <p>{{ post.content }}</p>
             <p><strong>Author:</strong> {{ post.author }}</p>
-            <button onClick="deletePost({{ post.id }})">Delete Post</button>
-            <button onClick="updatePost({{ post.id }})">Edit Post</button>
+            <button class="btn btn-delete" onClick="deletePost({{ post.id }})">Delete Post</button>
+            <button class="btn btn-edit" onClick="updatePost({{ post.id }})">Edit Post</button>
         </div>
     {% endfor %}
 </div>
@@ -104,5 +107,30 @@ function updatePost(postId) {
         alert('Failed to update post: ' + error.message);
     });
 }
+
+function clearPosts() {
+    if (confirm('Are you sure you want to delete all posts?')) {
+        fetch(`/clear-posts`, {
+            method: 'DELETE',
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken')
+            }
+        }).then(response => {
+            if (response.ok) {
+                location.reload();
+            } else {
+                alert('Failed to delete all posts.');
+            }
+        });
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('post-title').focus();
+});
+
+document.addEventListener('fetch', function() {
+    document.getElementById('post-title').focus();
+});
 </script>
 {% endblock %}
