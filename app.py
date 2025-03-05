@@ -41,7 +41,7 @@ def add_post():
     flash("Post added successfully", "success")
     return redirect(url_for('index'))
 
-@app.route('/delete-post/<int:post_id>', methods=['POST'])
+@app.route('/delete-post/<int:post_id>', methods=['DELETE'])
 def delete_post(post_id):
     try:
         if 0 <= post_id < len(posts):
@@ -54,7 +54,23 @@ def delete_post(post_id):
     except Exception as e:
         flash("An error occurred while deleting the post", "error")
         app.logger.error(f"Error deleting post with ID {post_id}: {e}")
-    return redirect(url_for('index'))
+    return '', 204
+
+@app.route('/update-post/<int:post_id>', methods=['PUT'])
+def update_post(post_id):
+    try:
+        post_data = request.get_json()
+        if 0 <= post_id < len(posts):
+            posts[post_id].update(post_data)
+            flash("Post updated successfully", "success")
+            app.logger.info(f"Post with ID {post_id} updated.")
+        else:
+            flash("Post not found", "error")
+            app.logger.warning(f"Attempt to update non-existent post with ID {post_id}.")
+    except Exception as e:
+        flash("An error occurred while updating the post", "error")
+        app.logger.error(f"Error updating post with ID {post_id}: {e}")
+    return '', 204
 
 if __name__ == '__main__':
     app.run(debug=True, port=5001)  # Change the port number to 5001 or any other available port

@@ -53,7 +53,7 @@ function deletePost(postId) {
     if (confirm(`Are you sure you want to delete the post with ID ${postId}?`)) {
         const csrftoken = getCookie('csrftoken');
         console.log('CSRF Token:', csrftoken); // Debugging CSRF token
-        fetch("/delete_post/" + postId + "/", {
+        fetch("/delete-post/" + postId, {
             method: 'DELETE',
             headers: {
                 'X-CSRFToken': csrftoken,
