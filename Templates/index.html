@@ -28,6 +28,7 @@
             <p>{{ post.content }}</p>
             <p><strong>Author:</strong> {{ post.author }}</p>
             <button onClick="deletePost({{ post.id }})">Delete Post</button>
+            <button onClick="updatePost({{ post.id }})">Edit Post</button>
         </div>
     {% endfor %}
 </div>
@@ -73,6 +74,12 @@ function deletePost(postId) {
             alert('Failed to delete post: ' + error.message);
         });
     }
+}
+
+function updatePost(postId) {
+    // Implement the logic to update the post with the given postId
+    alert(`Edit post with ID ${postId}`);
+    // You can add a modal or redirect to an edit page with the postId
 }
 </script>
 {% endblock %}

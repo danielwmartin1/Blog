@@ -43,11 +43,17 @@ def add_post():
 
 @app.route('/delete-post/<int:post_id>', methods=['POST'])
 def delete_post(post_id):
-    if 0 <= post_id < len(posts):
-        del posts[post_id]
-        flash("Post deleted successfully", "success")
-    else:
-        flash("Post not found", "error")
+    try:
+        if 0 <= post_id < len(posts):
+            del posts[post_id]
+            flash("Post deleted successfully", "success")
+            app.logger.info(f"Post with ID {post_id} deleted.")
+        else:
+            flash("Post not found", "error")
+            app.logger.warning(f"Attempt to delete non-existent post with ID {post_id}.")
+    except Exception as e:
+        flash("An error occurred while deleting the post", "error")
+        app.logger.error(f"Error deleting post with ID {post_id}: {e}")
     return redirect(url_for('index'))
 
 if __name__ == '__main__':
