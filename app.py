@@ -41,5 +41,14 @@ def add_post():
     flash("Post added successfully", "success")
     return redirect(url_for('index'))
 
+@app.route('/delete-post/<int:post_id>', methods=['POST'])
+def delete_post(post_id):
+    if 0 <= post_id < len(posts):
+        del posts[post_id]
+        flash("Post deleted successfully", "success")
+    else:
+        flash("Post not found", "error")
+    return redirect(url_for('index'))
+
 if __name__ == '__main__':
     app.run(debug=True, port=5001)  # Change the port number to 5001 or any other available port

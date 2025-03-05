@@ -95,6 +95,7 @@ form button:active {
 .post {
     margin-bottom: 2rem;
     text-align: justify;
+    position: relative; /* Added for positioning the delete button */
 }
 
 .post h2 {
@@ -131,6 +132,27 @@ form button:active {
 .form-container, .posts-container {
     width: 100%;
     max-width: 600px;
+}
+
+.delete-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 0.5rem;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.delete-button:hover {
+    background-color: #ff1a1a;
+}
+
+.delete-button:active {
+    background-color: #cc0000;
 }
 
 @media (max-width: 768px) {

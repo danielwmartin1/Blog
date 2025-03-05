@@ -22,12 +22,55 @@
     </form>
 </div>
 <div class="posts-container">
-    {% for post in posts %}
+    {% for post in posts %} 
         <div class="post">
             <h2>{{ post.title }}</h2>
             <p>{{ post.content }}</p>
             <p><strong>Author:</strong> {{ post.author }}</p>
+            <button onClick="deletePost({{ post.id }})">Delete Post</button>
         </div>
     {% endfor %}
 </div>
+
+<script>
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+function deletePost(postId) {
+    const csrftoken = getCookie('csrftoken');
+    console.log('CSRF Token:', csrftoken); // Debugging CSRF token
+    fetch("/delete_post/" + postId + "/", {
+        method: 'DELETE',
+        headers: {
+            'X-CSRFToken': csrftoken,
+        },
+    })
+    .then(response => {
+        console.log('Response Status:', response.status); // Debugging response status
+        if (response.ok) {
+            location.reload();
+        } else {
+            return response.json().then(error => {
+                throw new Error(error.message);
+            });
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Failed to delete post: ' + error.message);
+    });
+}
+</script>
 {% endblock %}

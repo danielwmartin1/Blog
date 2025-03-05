@@ -18,9 +18,39 @@
     </footer>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-    var year = new Date().getFullYear();
-    document.querySelector('footer p').innerHTML += ' ' + year;
+        var year = new Date().getFullYear();
+        document.querySelector('footer p').innerHTML += ' ' + year;
     });
+
+    function deletePost(postId) {
+        if (confirm('Are you sure you want to delete this post?')) {
+            fetch(`/delete-post/${postId}`, {
+                method: 'DELETE'
+            }).then(response => {
+                if (response.ok) {
+                    location.reload();
+                } else {
+                    alert('Failed to delete the post.');
+                }
+            });
+        }
+    }
+
+    function updatePost(postId, postData) {
+        fetch(`/update-post/${postId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(postData)
+        }).then(response => {
+            if (response.ok) {
+                location.reload();
+            } else {
+                alert('Failed to update the post.');
+            }
+        });
+    }
 </script>
 </body>
 </html>
