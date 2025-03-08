@@ -26,12 +26,12 @@
 </div>
 
 <div class="search-container">
-    <select id="filter-by" onchange="updateSearchPlaceholder()">
-        <option value="author">Filter by Author</option>
+    <select id="filter-by" onchange="updateSearchPlaceholder()" style="padding: 1rem; margin: 1rem;">
         <option value="title">Filter by Title</option>
         <option value="content">Filter by Content</option>
+        <option value="author">Filter by Author</option>
     </select>
-    <input type="text" id="search-input" placeholder="Search by Author" onkeyup="searchPosts()">
+    <input type="text" id="search-input" placeholder="Search by Author" onkeyup="searchPosts()" style="padding: 1rem;">
 </div>
 
 <div class="posts-container" id="posts-container">
