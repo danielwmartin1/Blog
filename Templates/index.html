@@ -18,10 +18,10 @@
         <input type="text" id="post-title" name="title" placeholder="Post Title" required minlength="5" style="border-radius: 6px;">
         <textarea name="content" placeholder="Post Content" required minlength="10" rows="5" style="resize: vertical; border-radius: 6px;"></textarea>
         <input type="text" id="post-author" name="author" placeholder="Post Author" required minlength="2" style="border-radius: 6px;">
-        <center>
+        <div style="display: flex; justify-content: center; gap: 1rem;">
             <button type="submit" class="btn btn-add">Add Post</button>
             <button type="button" class="btn btn-clear" onClick="clearPosts()" style="background-color: #ff6600;">Clear All Posts</button>
-        </center>
+        </div>
     </form>
 </div>
 
@@ -40,8 +40,10 @@
             <h2>{{ post.title }}</h2>
             <p>{{ post.content }}</p>
             <p><strong>Author:</strong> {{ post.author }}</p>
-            <button class="btn btn-delete" onClick="deletePost({{ post.id }})">Delete Post</button>
-            <button class="btn btn-edit" onClick="updatePost({{ post.id }})">Edit Post</button>
+            <div style="display: flex; justify-content: center; gap: 1rem;">
+                <button class="btn btn-delete" onClick="deletePost({{ post.id }})">Delete Post</button>
+                <button class="btn btn-edit" onClick="updatePost({{ post.id }})">Edit Post</button>
+            </div>
         </div>
     {% endfor %}
 </div>
