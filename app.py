@@ -21,22 +21,22 @@ class Post(db.Model):
     def __repr__(self):
         return f'<Post {self.title}>'
 
+def apply_filters(query, filter_by, filter_value):
+    if filter_by == 'author':
+        return query.filter(Post.author.ilike(f'{filter_value}%'))
+    elif filter_by == 'title':
+        return query.filter(Post.title.ilike(f'{filter_value}%'))
+    elif filter_by == 'content':
+        return query.filter(Post.content.ilike(f'%{filter_value}%'))
+    return query
+
 @app.route('/')
 def index():
     filter_by = request.args.get('filter_by')
+    filter_value = request.args.get(filter_by)
     query = Post.query
-    if filter_by == 'author':
-        author = request.args.get('author')
-        if author:
-            query = query.filter(Post.author.ilike(f'{author}%'))
-    elif filter_by == 'title':
-        title = request.args.get('title')
-        if title:
-            query = query.filter(Post.title.ilike(f'{title}%'))
-    elif filter_by == 'content':
-        content = request.args.get('content')
-        if content:
-            query = query.filter(Post.content.ilike(f'%{content}%'))
+    if filter_by and filter_value:
+        query = apply_filters(query, filter_by, filter_value)
     posts = query.order_by(Post.updated_at.desc()).all()
     return render_template('index.html', posts=posts)
 
@@ -108,19 +108,10 @@ def clear_posts():
 @app.route('/search', methods=['GET'])
 def search():
     filter_by = request.args.get('filter_by')
+    filter_value = request.args.get(filter_by)
     query = Post.query
-    if filter_by == 'author':
-        author = request.args.get('author')
-        if author:
-            query = query.filter(Post.author.ilike(f'{author}%'))
-    elif filter_by == 'title':
-        title = request.args.get('title')
-        if title:
-            query = query.filter(Post.title.ilike(f'{title}%'))
-    elif filter_by == 'content':
-        content = request.args.get('content')
-        if content:
-            query = query.filter(Post.content.ilike(f'%{content}%'))
+    if filter_by and filter_value:
+        query = apply_filters(query, filter_by, filter_value)
     posts = query.order_by(Post.updated_at.desc()).all()
     return render_template('posts.html', posts=posts)
 

@@ -15,9 +15,9 @@
 
 <div class="form-container">
     <form id="post-form" action="{{ url_for('add_post') }}" method="POST">
-        <input type="text" id="post-title" name="title" placeholder="Post Title" required minlength="5">
-        <textarea name="content" placeholder="Post Content" required minlength="10" rows="5" style="resize: vertical;"></textarea>
-        <input type="text" id="post-author" name="author" placeholder="Post Author" required minlength="2">
+        <input type="text" id="post-title" name="title" placeholder="Post Title" required minlength="5" style="border-radius: 6px;">
+        <textarea name="content" placeholder="Post Content" required minlength="10" rows="5" style="resize: vertical; border-radius: 6px;"></textarea>
+        <input type="text" id="post-author" name="author" placeholder="Post Author" required minlength="2" style="border-radius: 6px;">
         <center>
             <button type="submit" class="btn btn-add">Add Post</button>
             <button type="button" class="btn btn-clear" onClick="clearPosts()" style="background-color: #ff6600;">Clear All Posts</button>
@@ -26,12 +26,12 @@
 </div>
 
 <div class="search-container">
-    <select id="filter-by" onchange="updateSearchPlaceholder()" style="padding: 1rem; margin: 1rem;">
-        <option value="title">Filter by Title</option>
-        <option value="content">Filter by Content</option>
-        <option value="author">Filter by Author</option>
+    <select id="filter-by" onchange="updateSearchPlaceholder()" style="padding: 1rem; margin: 1rem; border-radius: 6px;">
+        <option value="title">Filter by Blog Title</option>
+        <option value="content">Filter by Blog Content</option>
+        <option value="author">Filter by Blog Author</option>
     </select>
-    <input type="text" id="search-input" placeholder="Search by Author" onkeyup="searchPosts()" style="padding: 1rem;">
+    <input type="text" id="search-input" placeholder="Search by Author" onkeyup="searchPosts()" style="padding: 1rem; border-radius: 6px; border-width: 0.5px;">
 </div>
 
 <div class="posts-container" id="posts-container">

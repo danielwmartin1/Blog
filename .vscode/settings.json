@@ -4,10 +4,12 @@
     "csrftoken",
     "endfor",
     "endwith",
+    "ilike",
     "lightgreen",
     "minlength",
     "nullable",
     "onclick",
+    "onupdate",
     "stylesheet"
   ]
 }
