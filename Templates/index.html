@@ -24,7 +24,17 @@
         </center>
     </form>
 </div>
-<div class="posts-container">
+
+<div class="search-container">
+    <select id="filter-by" onchange="updateSearchPlaceholder()">
+        <option value="author">Filter by Author</option>
+        <option value="title">Filter by Title</option>
+        <option value="content">Filter by Content</option>
+    </select>
+    <input type="text" id="search-input" placeholder="Search by Author" onkeyup="searchPosts()">
+</div>
+
+<div class="posts-container" id="posts-container">
     {% for post in posts %} 
         <div class="post">
             <h2>{{ post.title }}</h2>
@@ -123,6 +133,31 @@ function clearPosts() {
             }
         });
     }
+}
+
+function updateSearchPlaceholder() {
+    const filterBy = document.getElementById('filter-by').value;
+    const searchInput = document.getElementById('search-input');
+    if (filterBy === 'author') {
+        searchInput.placeholder = 'Search by Author';
+    } else if (filterBy === 'title') {
+        searchInput.placeholder = 'Search by Title';
+    } else if (filterBy === 'content') {
+        searchInput.placeholder = 'Search by Content';
+    }
+}
+
+function searchPosts() {
+    const filterBy = document.getElementById('filter-by').value;
+    const searchInput = document.getElementById('search-input').value;
+    fetch(`/search?filter_by=${filterBy}&${filterBy}=${searchInput}`)
+        .then(response => response.text())
+        .then(html => {
+            document.getElementById('posts-container').innerHTML = html;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
 }
 
 document.addEventListener('DOMContentLoaded', function() {

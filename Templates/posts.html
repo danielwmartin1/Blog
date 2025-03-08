@@ -1,0 +1,9 @@
+{% for post in posts %} 
+    <div class="post">
+        <h2>{{ post.title }}</h2>
+        <p>{{ post.content }}</p>
+        <p><strong>Author:</strong> {{ post.author }}</p>
+        <button class="btn btn-delete" onClick="deletePost({{ post.id }})">Delete Post</button>
+        <button class="btn btn-edit" onClick="updatePost({{ post.id }})">Edit Post</button>
+    </div>
+{% endfor %}

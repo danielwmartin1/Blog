@@ -23,7 +23,21 @@ class Post(db.Model):
 
 @app.route('/')
 def index():
-    posts = Post.query.order_by(Post.created_at.desc()).all()
+    filter_by = request.args.get('filter_by')
+    query = Post.query
+    if filter_by == 'author':
+        author = request.args.get('author')
+        if author:
+            query = query.filter(Post.author.ilike(f'{author}%'))
+    elif filter_by == 'title':
+        title = request.args.get('title')
+        if title:
+            query = query.filter(Post.title.ilike(f'{title}%'))
+    elif filter_by == 'content':
+        content = request.args.get('content')
+        if content:
+            query = query.filter(Post.content.ilike(f'%{content}%'))
+    posts = query.order_by(Post.updated_at.desc()).all()
     return render_template('index.html', posts=posts)
 
 @app.route('/add', methods=['POST'])
@@ -90,6 +104,25 @@ def clear_posts():
         flash("An error occurred while deleting the posts", "error")
         app.logger.error(f"Error deleting posts: {e}")
     return '', 204
+
+@app.route('/search', methods=['GET'])
+def search():
+    filter_by = request.args.get('filter_by')
+    query = Post.query
+    if filter_by == 'author':
+        author = request.args.get('author')
+        if author:
+            query = query.filter(Post.author.ilike(f'{author}%'))
+    elif filter_by == 'title':
+        title = request.args.get('title')
+        if title:
+            query = query.filter(Post.title.ilike(f'{title}%'))
+    elif filter_by == 'content':
+        content = request.args.get('content')
+        if content:
+            query = query.filter(Post.content.ilike(f'%{content}%'))
+    posts = query.order_by(Post.updated_at.desc()).all()
+    return render_template('posts.html', posts=posts)
 
 if __name__ == '__main__':
     app.run(debug=True, port=5001)  # Change the port number to 5001 or any other available port
