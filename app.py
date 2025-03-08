@@ -1,24 +1,29 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
+from sqlalchemy.sql import func
 import os
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY', 'default_secret_key')  # Replace 'default_secret_key' with a secure value
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///blog.db'
 db = SQLAlchemy(app)
+migrate = Migrate(app, db)
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
     content = db.Column(db.Text, nullable=False)
     author = db.Column(db.String(50), nullable=False)
+    created_at = db.Column(db.DateTime(timezone=True), server_default=func.now())
+    updated_at = db.Column(db.DateTime(timezone=True), onupdate=func.now())
 
     def __repr__(self):
         return f'<Post {self.title}>'
 
 @app.route('/')
 def index():
-    posts = Post.query.all()
+    posts = Post.query.order_by(Post.created_at.desc()).all()
     return render_template('index.html', posts=posts)
 
 @app.route('/add', methods=['POST'])
@@ -87,6 +92,4 @@ def clear_posts():
     return '', 204
 
 if __name__ == '__main__':
-    with app.app_context():
-        db.create_all()
     app.run(debug=True, port=5001)  # Change the port number to 5001 or any other available port
