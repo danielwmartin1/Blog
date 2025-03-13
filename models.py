@@ -1,5 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import func
+import pytz
 
 db = SQLAlchemy()
 
@@ -13,3 +14,11 @@ class Post(db.Model):
 
     def __repr__(self):
         return f'<Post {self.title}>'
+
+    @property
+    def formatted_created_at(self):
+        return self.created_at.astimezone(pytz.timezone('America/New_York')).strftime('%Y-%m-%d %H:%M:%S %Z')
+
+    @property
+    def formatted_updated_at(self):
+        return self.updated_at.astimezone(pytz.timezone('America/New_York')).strftime('%Y-%m-%d %H:%M:%S %Z')

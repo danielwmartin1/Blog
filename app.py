@@ -3,23 +3,15 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from sqlalchemy.sql import func
 import os
+from datetime import datetime
+import pytz
+from models import Post, db  # Ensure the Post model is imported correctly
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY', 'default_secret_key')  # Replace 'default_secret_key' with a secure value
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///blog.db'
-db = SQLAlchemy(app)
+db.init_app(app)
 migrate = Migrate(app, db)
-
-class Post(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(100), nullable=False)
-    content = db.Column(db.Text, nullable=False)
-    author = db.Column(db.String(50), nullable=False)
-    created_at = db.Column(db.DateTime(timezone=True), server_default=func.now())
-    updated_at = db.Column(db.DateTime(timezone=True), onupdate=func.now())
-
-    def __repr__(self):
-        return f'<Post {self.title}>'
 
 def apply_filters(query, filter_by, filter_value):
     if filter_by == 'author':
@@ -67,7 +59,7 @@ def add_post():
         flash("Author must be at least 2 characters long", "error")
         return redirect(url_for('index'))
     
-    new_post = Post(title=title, content=content, author=author)
+    new_post = Post(title=title, content=content, author=author, created_at=func.now(), updated_at=func.now())
     db.session.add(new_post)
     db.session.commit()
     flash("Post added successfully", "success")
@@ -90,6 +82,7 @@ def update_post(post_id):
     post.title = post_data.get('title', post.title)
     post.content = post_data.get('content', post.content)
     post.author = post_data.get('author', post.author)
+    post.updated_at = func.now()
     db.session.commit()
     flash("Post updated successfully", "success")
     return '', 204

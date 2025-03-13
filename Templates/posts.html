@@ -3,6 +3,8 @@
         <h2>{{ post.title }}</h2>
         <p>{{ post.content }}</p>
         <p><strong>Author:</strong> {{ post.author }}</p>
+        <p><strong>Created At:</strong> {{ post.formatted_created_at }}</p>
+        <p><strong>Updated At:</strong> {{ post.formatted_updated_at }}</p>
         <button class="btn btn-delete" onClick="deletePost({{ post.id }})">Delete Post</button>
         <button class="btn btn-edit" onClick="updatePost({{ post.id }})">Edit Post</button>
     </div>
