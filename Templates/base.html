@@ -11,7 +11,7 @@
     <header>
         <h1>Python/Django/Flask Blog</h1>
     </header>
-    <div class="container content-container">
+    <div class="container content-container" style="background-image: url('{{ url_for('static', filename='background.jpg') }}'); background-size: cover; background-position: center">
         {% block content %}{% endblock %}
     </div>
     <footer>
